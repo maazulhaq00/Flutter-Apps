@@ -8,7 +8,12 @@ class ColumnScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Column(
+        body: Row(
+      // mainAxisSize:  MainAxisSize.min,
+      // verticalDirection: VerticalDirection.up,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      crossAxisAlignment: CrossAxisAlignment.center,
+
       children: [
         Container(
           width: 100,
@@ -36,6 +41,10 @@ class ColumnScreen extends StatelessWidget {
             style: TextStyle(color: Colors.white),
           ),
           color: Colors.orange.shade200,
+        ),
+        Container(
+          // width: double.infinity,
+          height: double.infinity,
         )
       ],
     ));

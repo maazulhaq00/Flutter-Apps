@@ -3,6 +3,7 @@
 import 'package:c3_layout/screens/ColumnScreen.dart';
 import 'package:c3_layout/screens/HomeScreen.dart';
 import 'package:c3_layout/screens/MyContainer.dart';
+import 'package:c3_layout/screens/RainbowScreen.dart';
 import 'package:c3_layout/screens/SearchScreen.dart';
 import 'package:flutter/material.dart';
 
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: ColumnScreen(),
+      home: RainbowScreen(),
     );
   }
 }
