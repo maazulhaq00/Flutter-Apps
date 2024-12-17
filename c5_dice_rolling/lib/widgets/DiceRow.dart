@@ -1,5 +1,5 @@
 // ignore_for_file: prefer_const_constructors
-
+import 'dart:math';
 import 'package:flutter/material.dart';
 
 class DiceRow extends StatefulWidget {
@@ -10,6 +10,16 @@ class DiceRow extends StatefulWidget {
 }
 
 class _DiceRowState extends State<DiceRow> {
+  int leftDiceNumber = 2;
+  int rightDiceNumber = 3;
+
+  void changeDiceFace() {
+    setState(() {
+      leftDiceNumber = Random().nextInt(6) + 1;
+      rightDiceNumber = Random().nextInt(6) + 1;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -18,11 +28,11 @@ class _DiceRowState extends State<DiceRow> {
           flex: 1,
           child: TextButton(
             child: Image(
-              image: AssetImage('images/dice1.png'),
+              image: AssetImage('images/dice$leftDiceNumber.png'),
               // width: 200,
             ),
             onPressed: () {
-              print("dice 1 pressed");
+              changeDiceFace();
             },
           ),
         ),
@@ -30,11 +40,11 @@ class _DiceRowState extends State<DiceRow> {
           flex: 1,
           child: TextButton(
             child: Image(
-              image: AssetImage('images/dice5.png'),
+              image: AssetImage('images/dice$rightDiceNumber.png'),
               // width: 200,
             ),
             onPressed: () {
-              print("dice 2 pressed");
+              changeDiceFace();
             },
           ),
         )
