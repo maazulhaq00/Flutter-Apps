@@ -1,6 +1,11 @@
 // ignore_for_file: prefer_const_constructors, sort_child_properties_last
 
+import 'package:c9_quizzler/classes/Quiz.dart';
+import 'package:c9_quizzler/screens/ScoreScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+
+Quiz quiz = Quiz();
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -10,6 +15,57 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  List<Icon> scoreKeeper = [];
+  int score = 0;
+
+  void checkAnswer(bool userPickedAnswer) async {
+    if (quiz.isFinished()) {
+      // Alert(
+      //         context: context,
+      //         title: "Finished!",
+      //         desc:
+      //             "Quiz finished! You have attempted $score questions correctly")
+      //     .show();
+
+      await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ScoreScreen(
+            score: score,
+          ),
+        ),
+      );
+
+      setState(() {
+        scoreKeeper = [];
+        score = 0;
+        quiz.reset();
+      });
+    } else {
+      bool correctAnswer = quiz.getQuestionAnswer();
+      setState(() {
+        if (userPickedAnswer == correctAnswer) {
+          scoreKeeper.add(
+            Icon(
+              Icons.check,
+              color: Colors.green,
+            ),
+          );
+          score++;
+        } else {
+          scoreKeeper.add(
+            Icon(
+              Icons.close,
+              color: Colors.red,
+            ),
+          );
+        }
+
+        quiz.nextQuestion();
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
                   child: Text(
-                    "Your question will go here your question will go here.",
+                    quiz.getQuestionText(),
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Colors.white, fontSize: 20),
                   ),
@@ -36,7 +92,9 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Padding(
                 padding: EdgeInsets.all(15),
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    checkAnswer(true);
+                  },
                   child: Text(
                     "True",
                     style: TextStyle(color: Colors.white),
@@ -51,7 +109,9 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Padding(
                 padding: EdgeInsets.all(15),
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    checkAnswer(false);
+                  },
                   child: Text(
                     "False",
                     style: TextStyle(color: Colors.white),
@@ -61,6 +121,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
+            ),
+            Row(
+              children: scoreKeeper,
             )
           ],
         ),
